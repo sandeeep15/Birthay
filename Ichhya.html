@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Madridista</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --madrid-blue: #004170;
+            --madrid-gold: #FEBE10;
+            --soft-white: #f8f9fa;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            /* Background Ronaldo Photo - Ensure 'ronaldo.jpg' is in your folder */
+            background: linear-gradient(rgba(0, 65, 112, 0.7), rgba(0, 0, 0, 0.85)), 
+                        url('r.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: white;
+            text-align: center;
+            overflow-x: hidden;
+            border: 15px solid transparent;
+            /* Flower Border effect */
+            border-image: url('https://img.icons8.com/emoji/48/000000/cherry-blossom.png') 30 round;
+        }
+
+        /* Signature Heading */
+        .signature-header {
+            font-family: 'Dancing Script', cursive;
+            font-size: 5rem;
+            color: var(--madrid-gold);
+            margin: 40px 0 10px 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            animation: fadeInDown 1.5s ease;
+        }
+
+        /* Birthday Person Photo */
+        .profile-container {
+            margin-bottom: 30px;
+        }
+        .user-photo {
+            width: 200px;
+            height: 200px;
+            border: 6px solid white;
+            border-radius: 50%;
+            object-fit: cover;
+            box-shadow: 0 0 30px rgba(254, 190, 16, 0.6);
+            animation: zoomIn 1.2s ease;
+        }
+
+        /* Small Floating Balloons */
+        .balloon {
+            width: 40px;
+            height: 55px;
+            background: var(--madrid-gold);
+            border-radius: 50%;
+            position: absolute;
+            bottom: -100px;
+            z-index: 5;
+            box-shadow: inset -5px -5px 10px rgba(0,0,0,0.2);
+        }
+
+        @keyframes floatAndPop {
+            0% { bottom: -100px; transform: translateX(0); opacity: 1; }
+            70% { bottom: 50%; transform: translateX(20px); opacity: 1; }
+            100% { bottom: 55%; transform: scale(2.5); opacity: 0; }
+        }
+
+        /* Hidden Message after Blast */
+        #fan-msg {
+            display: none;
+            font-weight: 600;
+            font-size: 1.8rem;
+            color: white;
+            background: rgba(0, 65, 112, 0.5);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px auto;
+            width: fit-content;
+        }
+
+        /* Attractive Apology Section */
+        .apology-card {
+            display: none;
+            background: rgba(255, 255, 255, 0.95);
+            color: #333;
+            max-width: 550px;
+            margin: 40px auto;
+            padding: 40px;
+            border-radius: 30px 0 30px 0; /* Unique shape */
+            border-left: 8px solid var(--madrid-blue);
+            border-right: 8px solid var(--madrid-gold);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+            position: relative;
+        }
+
+        .apology-card h2 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.5rem;
+            color: var(--madrid-blue);
+            margin-top: 0;
+        }
+
+        .btn-elegant {
+            background: var(--madrid-gold);
+            color: var(--madrid-blue);
+            padding: 15px 40px;
+            border: none;
+            border-radius: 50px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: 0.4s;
+            margin-top: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        .btn-elegant:hover {
+            transform: translateY(-3px);
+            background: white;
+        }
+
+        /* Flowers in corners */
+        .corner-flower { position: fixed; font-size: 40px; pointer-events: none; }
+        .top-l { top: 20px; left: 20px; }
+        .top-r { top: 20px; right: 20px; }
+        .bot-l { bottom: 20px; left: 20px; }
+        .bot-r { bottom: 20px; right: 20px; }
+
+        @keyframes zoomIn { from { transform: scale(0); } to { transform: scale(1); } }
+        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+    <div class="corner-flower top-l">🌸</div>
+    <div class="corner-flower top-r">🌸</div>
+    <div class="corner-flower bot-l">🌺</div>
+    <div class="corner-flower bot-r">🌺</div>
+
+    <h1 class="signature-header">Happy Birthday</h1>
+
+    <div class="profile-container">
+        <img src="ichya.jpg" alt="Birthday Legend" class="user-photo">
+    </div>
+
+    <div id="balloon-garden"></div>
+
+    <h2 id="fan-msg">Happy Birthday, biggest fan of Real Madrid (ronaldo) ⚽🔥</h2>
+
+    <button class="btn-elegant" id="reveal-btn" style="display:none;" onclick="showApology()">Click for a Message</button>
+
+    <div class="apology-card" id="apology-box">
+        <h2>Misunderstanding</h2>
+        <p>I think you misunderstood me and I understand why. Still, I take full responsibility and I’m sorry. My intention was never negative and I hope you can believe that.</p>
+        <div style="font-size: 25px;">🌸🌼🌸</div>
+    </div>
+
+    <script>
+        // Generate many small balloons
+        const container = document.getElementById('balloon-garden');
+        const colors = ['#FEBE10', '#ffffff', '#004170', '#87CEEB'];
+
+        for (let i = 0; i < 15; i++) {
+            let b = document.createElement('div');
+            b.className = 'balloon';
+            b.style.left = Math.random() * 90 + 'vw';
+            b.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            b.style.animation = `floatAndPop 2s forwards ease-in`;
+            b.style.animationDelay = (Math.random() * 1) + 's';
+            container.appendChild(b);
+        }
+
+        // Show message and button after balloons "blast" (2.5 seconds)
+        setTimeout(() => {
+            document.getElementById('fan-msg').style.display = 'block';
+            document.getElementById('reveal-btn').style.display = 'inline-block';
+        }, 2800);
+
+        function showApology() {
+            const box = document.getElementById('apology-box');
+            box.style.display = 'block';
+            box.scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
